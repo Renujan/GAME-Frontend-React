@@ -6,14 +6,18 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
+import OtpVerify from "@/components/OtpVerify";
+
+type LoginStep = 'LOGIN' | 'OTP';
 
 const Login = () => {
+  const [step, setStep] = useState<LoginStep>('LOGIN');
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Destructure user as well!
-  const { login, isAuthenticated, user } = useAuth();
+  const { loginStep1, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +42,14 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await login(username, password);
-      toast.success("Welcome back! 🍌");
-      // Navigation handled by useEffect
+      const response = await loginStep1(username, password);
+      if (response.otp_sent) {
+        setEmail(response.email);
+        setStep('OTP');
+        toast.success("OTP sent to your email! 📧");
+      } else {
+        toast.error("Failed to send OTP. Please try again.");
+      }
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.detail ||
@@ -51,6 +60,16 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  const handleBackToLogin = () => {
+    setStep('LOGIN');
+    setEmail('');
+    setPassword('');
+  };
+
+  if (step === 'OTP') {
+    return <OtpVerify email={email} onBack={handleBackToLogin} />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-20">
@@ -93,7 +112,7 @@ const Login = () => {
               className="w-full bg-gradient-primary shadow-glow hover:scale-105 transition-transform"
               disabled={loading}
             >
-              {loading ? "Logging in..." : "Login 🍌"}
+              {loading ? "Sending OTP..." : "Send OTP 🍌"}
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">

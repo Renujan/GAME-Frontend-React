@@ -12,6 +12,16 @@ export interface LoginData {
   password: string;
 }
 
+export interface LoginStep1Response {
+  otp_sent: boolean;
+  email: string;
+}
+
+export interface OtpVerifyData {
+  email: string;
+  otp: string;
+}
+
 export interface AuthResponse {
   access: string;
   refresh: string;
@@ -32,6 +42,16 @@ export interface RegisterResponse {
 export const authService = {
   register: async (data: RegisterData): Promise<RegisterResponse> => {
     const response = await axiosInstance.post(API_CONFIG.ENDPOINTS.REGISTER, data);
+    return response.data;
+  },
+
+  loginStep1: async (data: LoginData): Promise<LoginStep1Response> => {
+    const response = await axiosInstance.post(API_CONFIG.ENDPOINTS.LOGIN, data);
+    return response.data;
+  },
+
+  verifyOtp: async (data: OtpVerifyData): Promise<AuthResponse> => {
+    const response = await axiosInstance.post(API_CONFIG.ENDPOINTS.VERIFY_OTP, data);
     return response.data;
   },
 
