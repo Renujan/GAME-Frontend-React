@@ -11,6 +11,8 @@ interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  loginStep1: (username: string, password: string) => Promise<{ otp_sent: boolean; email: string }>;
+  loginStep2: (email: string, otp: string) => Promise<void>;
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -34,13 +36,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const login = async (username: string, password: string) => {
-    const response = await authService.login({ username, password });
-    
+  const loginStep1 = async (username: string, password: string) => {
+    const response = await authService.loginStep1({ username, password });
+    return response;
+  };
+
+  const loginStep2 = async (email: string, otp: string) => {
+    const response = await authService.verifyOtp({ email, otp });
+
     // Store tokens
     localStorage.setItem("access_token", response.access);
     localStorage.setItem("refresh_token", response.refresh);
-    
+
+    // Store user data (if provided by backend, otherwise create minimal user object)
+    const userData: User = response.user ? {
+      ...response.user,
+      role: response.user.role || "player"
+    } : {
+      id: 0,
+      username: "",
+      email,
+      role: "player"
+    };
+
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+  };
+
+  const login = async (username: string, password: string) => {
+    const response = await authService.login({ username, password });
+
+    // Store tokens
+    localStorage.setItem("access_token", response.access);
+    localStorage.setItem("refresh_token", response.refresh);
+
     // Store user data (if provided by backend, otherwise create minimal user object)
     const userData: User = response.user ? {
       ...response.user,
@@ -51,7 +80,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       email: "",
       role: "player"
     };
-    
+
     localStorage.setItem("user", JSON.stringify(userData));
     setUser(userData);
   };
@@ -73,6 +102,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         isAuthenticated: !!user,
+        loginStep1,
+        loginStep2,
         login,
         register,
         logout,
