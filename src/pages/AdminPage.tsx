@@ -75,8 +75,8 @@ const AdminPageContent = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               { label: "Total Players", value: stats.total_players ?? 0, emoji: "👥" },
-              { label: "Total Games", value: stats.games_played ?? 0, emoji: "🎮" },
-              { label: "Avg Score", value: (stats.avg_score ?? 0).toFixed(1), emoji: "🍌" },
+              { label: "Total Games", value: stats.total_games ?? 0, emoji: "🎮" },
+              { label: "Avg Score", value: (stats.overall_accuracy ?? 0).toFixed(1), emoji: "🍌" },
             ].map((stat, i) => (
               <Card key={i} className="shadow-playful hover:scale-105 transition-transform">
                 <CardContent className="p-6 text-center">
