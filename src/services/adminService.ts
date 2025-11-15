@@ -21,6 +21,7 @@ export interface AdminStats {
   }[];
 }
 
+
 export interface PuzzleData {
   image_url: string;
   solution: string;

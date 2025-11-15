@@ -4,6 +4,7 @@ export const API_CONFIG = {
     // Auth endpoints
     REGISTER: "/api/register/",
     LOGIN: "/api/login/",
+    VERIFY_OTP: "/api/verify-otp/",
     LOGOUT: "/api/logout/",
     
     // Game endpoints
