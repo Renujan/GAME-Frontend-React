@@ -10,9 +10,17 @@ export interface Player {
 
 export interface AdminStats {
   total_players: number;
-  games_played: number;
-  avg_score: number;
+  total_games: number;
+  total_correct_answers: number;
+  overall_accuracy: number;
+  daily_stats: {
+    date: string;
+    games: number;
+    correct: number;
+    accuracy: number;
+  }[];
 }
+
 
 export interface PuzzleData {
   image_url: string;
