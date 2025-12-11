@@ -41,7 +41,7 @@ All colors MUST be HSL.
     /* Banana theme gradients */
     --gradient-primary: linear-gradient(135deg, hsl(45 100% 51%), hsl(33 100% 60%));
     --gradient-success: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 60%));
-    --gradient-bg: linear-gradient(180deg, hsl(45 100% 96%), hsl(45 80% 92%));
+    --gradient-bg: linear-gradient(to bottom right, #4F46E5, #7C3AED, #EC4899);
     
     /* Shadows */
     --shadow-playful: 0 8px 24px -4px hsl(45 100% 51% / 0.2);
@@ -134,6 +134,18 @@ All colors MUST be HSL.
   .animate-glow {
     animation: glow 1.5s ease-in-out infinite;
   }
+
+  .animate-pulse-theme {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  .animate-bounce-theme {
+    animation: bounce 1s ease-in-out infinite;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 1s ease-in-out infinite;
+  }
   
   @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -154,7 +166,23 @@ All colors MUST be HSL.
   }
   
   @keyframes glow {
-    0%, 100% { box-shadow: 0 0 20px hsl(var(--primary) / 0.3); }
-    50% { box-shadow: 0 0 40px hsl(var(--primary) / 0.6); }
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.7); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  @keyframes sparkle {
+    0%, 50%, 100% { opacity: 1; transform: scale(1); }
+    25% { opacity: 0.5; transform: scale(0.9); }
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
   }
 }

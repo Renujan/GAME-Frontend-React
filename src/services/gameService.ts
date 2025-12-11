@@ -12,19 +12,50 @@ export interface Question {
 }
 
 export interface AnswerData {
-  puzzle_id: string;    // ✅ must be string
+  puzzle_id: string;    // ✅ use string, not id
   answer: string;
+  time_taken?: number;  // ✅ Add time_taken parameter
 }
 
 export interface AnswerResponse {
   correct: boolean;
-  points_awarded: number;
-  new_score: number;
+  points_earned: number;
+  coins_earned: number;
+  total_score: number;
+  total_coins: number;
+  time_taken: number;
+  multiplier: number;
+  speed_bonus: number;
+}
+
+export interface FreezeTimerData {
+  puzzle_id: string;
+  freeze_seconds: number;
+}
+
+export interface FreezeTimerResponse {
+  success: boolean;
+  freeze_seconds: number;
+  coins_spent: number;
+  coins_left: number;
+  active_until: string;
+}
+
+export interface DoublePointsData {
+  puzzle_id: string;
+}
+
+export interface DoublePointsResponse {
+  success: boolean;
+  multiplier: number;
+  coins_spent: number;
+  coins_left: number;
+  active_for_next: boolean;
 }
 
 export const gameService = {
-  getQuestion: async (): Promise<Question> => {
-    const response = await axiosInstance.get(API_CONFIG.ENDPOINTS.GET_QUESTION);
+  getQuestion: async (difficulty: string = 'medium'): Promise<Question> => {
+    const response = await axiosInstance.get(`${API_CONFIG.ENDPOINTS.GET_QUESTION}?difficulty=${difficulty}`);
     return response.data as Question;
   },
 
@@ -34,5 +65,21 @@ export const gameService = {
       data
     );
     return response.data as AnswerResponse;
+  },
+
+  freezeTimer: async (data: FreezeTimerData): Promise<FreezeTimerResponse> => {
+    const response = await axiosInstance.post(
+      API_CONFIG.ENDPOINTS.FREEZE_TIMER,
+      data
+    );
+    return response.data as FreezeTimerResponse;
+  },
+
+  doublePoints: async (data: DoublePointsData): Promise<DoublePointsResponse> => {
+    const response = await axiosInstance.post(
+      API_CONFIG.ENDPOINTS.DOUBLE_POINTS,
+      data
+    );
+    return response.data as DoublePointsResponse;
   },
 };

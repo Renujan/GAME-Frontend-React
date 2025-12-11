@@ -72,11 +72,11 @@ const AdminPageContent = () => {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-yellow-900 via-orange-900 to-amber-900">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Animated background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-orange-500/10 animate-pulse"></div>
-      <div className="absolute top-20 left-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 animate-pulse"></div>
+      <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       
       {/* Floating bananas and monkeys */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -108,10 +108,10 @@ const AdminPageContent = () => {
               <Crown className="w-10 h-10 text-yellow-400 absolute -top-4 -right-4 animate-pulse drop-shadow-2xl" />
             </div>
             <div>
-              <h1 className="text-6xl font-black bg-gradient-to-r from-yellow-300 via-orange-400 to-yellow-300 bg-clip-text text-transparent drop-shadow-2xl">
+              <h1 className="text-6xl font-black bg-gradient-to-r from-blue-300 via-purple-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-2xl">
                 MONKEY CONTROL CENTER
               </h1>
-              <p className="text-xl text-yellow-200 font-semibold flex items-center gap-2 mt-2">
+              <p className="text-xl text-blue-200 font-semibold flex items-center gap-2 mt-2">
                 <span className="text-2xl">🍌</span>
                 Master of the Banana Monkey Kingdom
                 <span className="text-2xl">🍌</span>
@@ -148,9 +148,9 @@ const AdminPageContent = () => {
             ].map((stat, i) => {
               const Icon = stat.icon;
               return (
-                <Card 
-                  key={i} 
-                  className="relative overflow-hidden border-2 border-yellow-600/30 bg-gradient-to-br from-amber-800/80 to-orange-900/80 backdrop-blur-sm shadow-2xl hover:scale-105 transition-all duration-300 hover:border-yellow-500 group"
+                <Card
+                  key={i}
+                  className="relative overflow-hidden border border-blue-500/30 bg-blue-950/50 backdrop-blur-xl shadow-2xl hover:scale-105 hover:bg-blue-950/60 transition-all duration-500 hover:border-blue-400/50 group"
                   style={{
                     animation: `slideIn 0.5s ease-out ${i * 0.1}s backwards`
                   }}
@@ -163,7 +163,7 @@ const AdminPageContent = () => {
                     <div className={`text-5xl font-black bg-gradient-to-br ${stat.gradient} bg-clip-text text-transparent`}>
                       {stat.value}
                     </div>
-                    <div className="text-sm font-bold text-yellow-200 uppercase tracking-wide">
+                    <div className="text-sm font-bold text-slate-300 uppercase tracking-wide">
                       {stat.label}
                     </div>
                     <div className="text-2xl">{i === 0 ? '🐵' : i === 1 ? '🎮' : '🍌'}</div>
@@ -175,17 +175,17 @@ const AdminPageContent = () => {
         )}
 
         {/* Player Management */}
-        <Card className="relative overflow-hidden border-2 border-yellow-600/30 bg-gradient-to-br from-amber-800/80 to-orange-900/80 backdrop-blur-sm shadow-2xl">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-500"></div>
-          <CardHeader className="border-b border-yellow-600/20">
+        <Card className="relative overflow-hidden border border-blue-400/30 bg-slate-900/40 backdrop-blur-xl shadow-2xl hover:bg-slate-900/50 transition-all duration-500">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-50"></div>
+          <CardHeader className="border-b border-blue-500/20">
             <div className="flex justify-between items-center">
-              <CardTitle className="text-2xl font-black text-yellow-200 flex items-center gap-3">
+              <CardTitle className="text-2xl font-extrabold text-white/90 flex items-center gap-3 tracking-tight">
                 <span className="text-3xl">🐵</span>
-                Monkey Players
+                <span className="bg-gradient-to-r from-blue-200 to-cyan-200 bg-clip-text text-transparent">Monkey Players</span>
               </CardTitle>
-              <Button 
+              <Button
                 onClick={loadData}
-                className="gap-2 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white border-0 shadow-lg hover:shadow-xl transition-all"
+                className="gap-2 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white border-0 shadow-lg hover:shadow-xl transition-all backdrop-blur-sm bg-opacity-80"
               >
                 <RefreshCw className="w-4 h-4" />
                 Refresh
@@ -198,23 +198,23 @@ const AdminPageContent = () => {
                 {players.map((player, i) => (
                   <div
                     key={player.id}
-                    className="group relative overflow-hidden flex items-center justify-between p-5 bg-gradient-to-r from-amber-700/50 to-orange-800/50 border border-yellow-600/20 rounded-xl hover:border-yellow-500 transition-all duration-300 hover:shadow-lg"
+                    className="group relative overflow-hidden flex items-center justify-between p-5 bg-slate-800/30 backdrop-blur-md border border-slate-600/30 rounded-xl hover:bg-slate-800/40 hover:border-slate-500/50 transition-all duration-300"
                     style={{
                       animation: `slideIn 0.3s ease-out ${i * 0.05}s backwards`
                     }}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/0 via-yellow-500/5 to-yellow-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-                    
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/3 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+
                     <div className="relative flex items-center gap-4">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-yellow-600 to-orange-600 shadow-lg">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 shadow-lg">
                         <span className="text-2xl">🐵</span>
                       </div>
                       <div>
-                        <div className="font-bold text-xl text-white group-hover:text-yellow-200 transition-colors">
+                        <div className="font-bold text-xl text-white group-hover:text-slate-200 transition-colors">
                           {player.username}
                         </div>
-                        <div className="text-sm text-yellow-200 font-medium">
-                          {player.email} • <span className="text-yellow-300 font-bold">{player.score} 🍌</span>
+                        <div className="text-sm text-slate-300 font-medium">
+                          {player.email} • <span className="text-amber-300 font-bold">{player.score} 🍌</span>
                         </div>
                       </div>
                     </div>
@@ -239,19 +239,19 @@ const AdminPageContent = () => {
             ) : (
               <div className="text-center py-12">
                 <div className="text-8xl mb-4">🐵</div>
-                <p className="text-yellow-200 text-lg">No monkeys in the jungle yet!</p>
+                <p className="text-slate-200 text-lg">No monkeys in the jungle yet!</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Admin Actions */}
-        <Card className="relative overflow-hidden border-2 border-yellow-600/30 bg-gradient-to-br from-amber-800/80 to-orange-900/80 backdrop-blur-sm shadow-2xl">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-500"></div>
-          <CardHeader className="border-b border-yellow-600/20">
-            <CardTitle className="text-2xl font-black text-yellow-200 flex items-center gap-3">
+        <Card className="relative overflow-hidden border border-purple-400/30 bg-slate-900/40 backdrop-blur-xl shadow-2xl hover:bg-slate-900/50 transition-all duration-500">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-50"></div>
+          <CardHeader className="border-b border-purple-500/20">
+            <CardTitle className="text-2xl font-extrabold text-white/90 flex items-center gap-3 tracking-tight">
               <span className="text-3xl">🎮</span>
-              Monkey Business Actions
+              <span className="bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">Monkey Business Actions</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">

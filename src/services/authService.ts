@@ -30,6 +30,8 @@ export interface AuthResponse {
     username: string;
     email: string;
     role?: string;
+    score?: number;
+    coins?: number;
   };
 }
 

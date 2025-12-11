@@ -6,10 +6,13 @@ interface User {
   username: string;
   email: string;
   role: string;
+  score: number;
+  coins: number;
 }
 
 interface AuthContextType {
   user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   isAuthenticated: boolean;
   loginStep1: (username: string, password: string) => Promise<{ otp_sent: boolean; email: string }>;
   loginStep2: (email: string, otp: string) => Promise<void>;
@@ -29,9 +32,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Check for existing user on mount
     const storedUser = localStorage.getItem("user");
     const accessToken = localStorage.getItem("access_token");
-    
+
     if (storedUser && accessToken) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        // Ensure coins field exists with fallback
+        if (parsedUser && typeof parsedUser.coins !== 'number') {
+          parsedUser.coins = 100;
+          localStorage.setItem("user", JSON.stringify(parsedUser));
+        }
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Failed to parse stored user:', error);
+        localStorage.removeItem("user");
+      }
     }
     setLoading(false);
   }, []);
@@ -49,14 +63,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("refresh_token", response.refresh);
 
     // Store user data (if provided by backend, otherwise create minimal user object)
+    // Ensure coins defaults to 100 for new users
     const userData: User = response.user ? {
       ...response.user,
-      role: response.user.role || "player"
+      role: response.user.role || "player",
+      score: response.user.score || 0,
+      coins: response.user.coins || 100
     } : {
       id: 0,
       username: "",
       email,
-      role: "player"
+      role: "player",
+      score: 0,
+      coins: 100
     };
 
     localStorage.setItem("user", JSON.stringify(userData));
@@ -71,14 +90,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("refresh_token", response.refresh);
 
     // Store user data (if provided by backend, otherwise create minimal user object)
+    // Ensure coins defaults to 100 for new/existing users
     const userData: User = response.user ? {
       ...response.user,
-      role: response.user.role || "player"
+      role: response.user.role || "player",
+      score: response.user.score || 0,
+      coins: response.user.coins || 100
     } : {
       id: 0,
       username,
       email: "",
-      role: "player"
+      role: "player",
+      score: 0,
+      coins: 100
     };
 
     localStorage.setItem("user", JSON.stringify(userData));
@@ -101,6 +125,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         isAuthenticated: !!user,
         loginStep1,
         loginStep2,
